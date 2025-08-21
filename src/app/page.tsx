@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
@@ -11,6 +11,7 @@ import {
 // BILINGUAL PORTFOLIO PAGE (TH/EN)
 // Design: Minimal • Classic • Formal — Colors: White + Navy
 // =============================
+
 // ---------- Types ----------
 type Lang = "th" | "en";
 
@@ -38,6 +39,14 @@ type LocaleContent = {
   nav: { about: string; learning: string; skills: string; education: string; experience: string; activities: string; contact: string };
   footer: string;
 };
+
+type ContentDict = Record<Lang, LocaleContent>;
+
+type SectionProps = { id?: string; title: ReactNode; icon?: ReactNode; children: ReactNode };
+type CardProps = { children: ReactNode; className?: string };
+type PillProps = { children: ReactNode };
+
+// ---------- Copy ----------
 const content: ContentDict = {
   th: {
     langLabel: "TH",
@@ -223,6 +232,7 @@ const content: ContentDict = {
   },
 };
 
+// ---------- UI ----------
 const palette = { base: "#ffffff", navy: "#0f172a", accent: "#1e293b", brown: "#9a7b63" };
 
 const Section = ({ id, title, icon, children }: SectionProps) => (
@@ -242,9 +252,11 @@ const Card = ({ children, className = "" }: CardProps) => (
 const Pill = ({ children }: PillProps) => (
   <span className="inline-flex items-center rounded-full border px-3 py-1 text-xs md:text-sm bg-white/70">{children}</span>
 );
+
+// ---------- Page ----------
 export default function Page() {
-  const [lang, setLang] = useState<"th" | "en">("th");
-  const t = useMemo(() => content[lang], [lang]);
+  const [lang, setLang] = useState<Lang>("th");
+  const t = useMemo<LocaleContent>(() => content[lang], [lang]);
   const year = useMemo(() => new Date().getUTCFullYear(), []);
 
   return (
@@ -323,17 +335,16 @@ export default function Page() {
             {/* Hero portrait */}
             <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.1 }} className="relative">
               <div className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-slate-900/10 to-[#9a7b63]10 blur-2xl" />
-             {/* Portrait */}
-<div className="relative rounded-3xl overflow-hidden border shadow-md">
-  <Image
-    src="/portrait.jpg"
-    alt="Chibi portrait"
-    width={800}
-    height={900}
-    className="w-full h-[360px] object-cover"
-    priority
-  />
-</div>
+              <div className="relative rounded-3xl overflow-hidden border shadow-md">
+                <Image
+                  src="/portrait.jpg"
+                  alt="Chibi portrait"
+                  width={800}
+                  height={900}
+                  className="w-full h-[360px] object-cover"
+                  priority
+                />
+              </div>
               <div className="absolute -bottom-4 -right-4 bg-white/80 backdrop-blur border rounded-2xl px-3 py-2 shadow flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-slate-700" />
                 <span className="text-xs text-slate-700">Business • AI • Strategy</span>
@@ -341,6 +352,7 @@ export default function Page() {
             </motion.div>
           </div>
         </section>
+
         {/* About */}
         <Section id="about" title={t.about.title} icon={<ShieldCheck className="w-5 h-5" /> }>
           <Card>
@@ -365,31 +377,28 @@ export default function Page() {
         {/* Image strip: YEC & Graduation */}
         <div className="my-8 grid md:grid-cols-2 gap-6">
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="relative rounded-2xl overflow-hidden border shadow-sm">
-            {/* YEC */}
-<Image
-  src="/yec.jpg"
-  alt="YEC Songkhla Orientation"
-  width={1200}
-  height={600}
-  className="w-full h-[220px] object-cover"
-/>
-
+            <Image
+              src="/yec.jpg"
+              alt="YEC Songkhla Orientation"
+              width={1200}
+              height={600}
+              className="w-full h-[220px] object-cover"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
             <div className="absolute bottom-3 left-3 text-white text-sm flex items-center gap-2">
               <ShieldCheck className="w-4 h-4"/>
               {lang === 'th' ? 'YEC สงขลา — ปฐมนิเทศ' : 'YEC Songkhla — Orientation'}
             </div>
           </motion.div>
-          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.05 }} className="relative rounded-2xl overflow-hidden border shadow-sm">
-           {/* Graduation */}
-<Image
-  src="/graduation.jpg"
-  alt="Graduation with Family — First-class Honours"
-  width={1200}
-  height={600}
-  className="w-full h-[220px] object-cover"
-/>
 
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.05 }} className="relative rounded-2xl overflow-hidden border shadow-sm">
+            <Image
+              src="/graduation.jpg"
+              alt="Graduation with Family — First-class Honours"
+              width={1200}
+              height={600}
+              className="w-full h-[220px] object-cover"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
             <div className="absolute bottom-3 left-3 text-white text-sm flex items-center gap-2">
               <GraduationCap className="w-4 h-4"/>
@@ -411,6 +420,7 @@ export default function Page() {
             ))}
           </div>
         </Section>
+
         {/* Education */}
         <Section id="education" title={t.education.title} icon={<GraduationCap className="w-5 h-5" /> }>
           <Card>
@@ -475,19 +485,21 @@ export default function Page() {
           </Card>
         </Section>
 
-      <footer className="py-10 text-center text-xs text-slate-500">
-  © {year} Chibi. {t.footer}
-  <div className="mt-2 inline-flex items-center gap-1 text-slate-400">
-    <ChevronRight className="w-3 h-3" /> {content[lang].head.tagline}
-  </div>
-</footer>
+        {/* Footer */}
+        <footer className="py-10 text-center text-xs text-slate-500">
+          © {year} Chibi. {t.footer}
+          <div className="mt-2 inline-flex items-center gap-1 text-slate-400">
+            <ChevronRight className="w-3 h-3" /> {content[lang].head.tagline}
+          </div>
+        </footer>
       </main>
     </div>
   );
 }
+
 // ---- Utils ----
 function downloadVCard(p: Pick<LocaleContent, "langLabel" | "hero" | "contact" | "head">) {
-   const fn = `Chibi-${p.langLabel}-contact.vcf`;
+  const fn = `Chibi-${p.langLabel}-contact.vcf`;
   const v = [
     "BEGIN:VCARD",
     "VERSION:3.0",
