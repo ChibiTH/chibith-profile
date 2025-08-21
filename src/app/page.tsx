@@ -13,6 +13,8 @@ import {
 // =============================
 
 // ---------- Types ----------
+import type { ReactNode } from "react";
+
 type Lang = "th" | "en";
 
 type LearningItem = { t: string; d: string };
@@ -23,12 +25,18 @@ type Education = {
   title: string; degree: string; school: string; year: string;
   gpa: number; honors?: string; focus: string[];
 };
-type Contact = { title: string; email: string; phone: string; location: string; linkedin: string };
+
+type Contact = {
+  title: string; email: string; phone: string; location: string; linkedin: string;
+};
 
 type LocaleContent = {
   langLabel: string;
   head: { title: string; tagline: string };
-  hero: { greeting: string; name: string; role: string; summary: string; ctas: { contact: string; cv: string } };
+  hero: {
+    greeting: string; name: string; role: string; summary: string;
+    ctas: { contact: string; cv: string }
+  };
   about: { title: string; bullets: string[] };
   learning: { title: string; items: LearningItem[] };
   skills: { title: string; buckets: SkillsBucket[] };
@@ -36,15 +44,18 @@ type LocaleContent = {
   experience: { title: string; roles: Role[] };
   activities: { title: string; items: string[] };
   contact: Contact;
-  nav: { about: string; learning: string; skills: string; education: string; experience: string; activities: string; contact: string };
+  nav: {
+    about: string; learning: string; skills: string; education: string;
+    experience: string; activities: string; contact: string
+  };
   footer: string;
 };
 
 type ContentDict = Record<Lang, LocaleContent>;
 
 type SectionProps = { id?: string; title: ReactNode; icon?: ReactNode; children: ReactNode };
-type CardProps = { children: ReactNode; className?: string };
-type PillProps = { children: ReactNode };
+type CardProps    = { children: ReactNode; className?: string };
+type PillProps    = { children: ReactNode };
 
 // ---------- Copy ----------
 const content: ContentDict = {
