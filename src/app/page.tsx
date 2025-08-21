@@ -13,8 +13,6 @@ import {
 // =============================
 
 // ---------- Types ----------
-import type { ReactNode } from "react";
-
 type Lang = "th" | "en";
 
 type LearningItem = { t: string; d: string };
