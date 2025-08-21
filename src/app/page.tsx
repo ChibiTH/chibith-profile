@@ -38,9 +38,6 @@ type LocaleContent = {
   nav: { about: string; learning: string; skills: string; education: string; experience: string; activities: string; contact: string };
   footer: string;
 };
-
-type ContentDi
-
 const content: ContentDict = {
   th: {
     langLabel: "TH",
