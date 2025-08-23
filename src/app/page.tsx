@@ -1,5 +1,5 @@
 "use client";
-
+import Script from "next/script";
 import { useMemo, useState, type ReactNode } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -18,7 +18,8 @@ import { Prompt as PromptFont } from "next/font/google";
 // simplify experience bullets, split family companies, restore missing info,
 // remove Education Focus + duplicate lines.
 // =========================================
-
+export default function Page() {
+  return (
 const prompt = PromptFont({
   subsets: ["latin", "thai"],
   weight: ["300", "400", "500", "600", "700"],
@@ -551,6 +552,5 @@ export default function Page() {
 ></div>
 <script src="https://server.fillout.com/embed/v1/"></script>
     </div>
-    
   );
 }
